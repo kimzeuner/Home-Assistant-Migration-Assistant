@@ -1,0 +1,13 @@
+{
+  "services": {
+    "rescan": {
+      "service": "mdi:magnify-scan"
+    },
+    "export_plan": {
+      "service": "mdi:file-export"
+    },
+    "generate_diff": {
+      "service": "mdi:file-compare"
+    }
+  }
+}

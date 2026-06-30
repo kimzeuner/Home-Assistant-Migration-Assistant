@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Migrationsplan erstellen",
-        "description": "Gib die alte und neue Entity-ID ein. Version 0.0.1 sucht nur Fundstellen und verändert keine Dateien.",
+        "description": "Gib die alte und neue Entity-ID ein. Der Assistent durchsucht deine Home-Assistant-Konfiguration, erstellt Berichte und verändert keine Dateien.",
         "data": {
           "old_entity_id": "Alte Entity-ID",
           "new_entity_id": "Neue Entity-ID"
@@ -24,7 +24,8 @@
         "data": {
           "old_entity_id": "Alte Entity-ID",
           "new_entity_id": "Neue Entity-ID"
-        }
+        },
+        "description": "Passe die Entity-IDs für diesen Migrationsplan an."
       }
     }
   }

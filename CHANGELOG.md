@@ -1,49 +1,66 @@
 # Changelog
 
+## v0.0.5
+
+### Changed
+
+- Changed `integration_type` from `helper` to `service` to avoid Home Assistant treating the integration as a Helper integration.
+- Updated export payload version to `0.0.5`.
+- Updated config-flow descriptions to remove outdated v0.0.1 wording.
+
+### Added
+
+- Added `icons.json` for service icons.
+- Added local brand assets under `custom_components/ha_migration_assistant/brand/`.
+
+### Kept from v0.0.4
+
+- Modular scanner engine.
+- Match categories.
+- Confidence scores.
+- Markdown migration report attributes.
+- JSON export service.
+- Diff export service.
+- Read-only behavior.
+
 ## v0.0.4
 
 ### Added
 
 - Modular scanner architecture.
-- Scanner categories for automations, scripts, scenes, groups, templates, Lovelace, `.storage` Lovelace, blueprints, and configuration.
-- Structured migration match objects.
-- Match confidence scoring.
-- Category summaries in scan attributes.
-- Improved Markdown migration report.
-- Service `ha_migration_assistant.generate_diff` for read-only diff preview export.
-- Attribute `last_diff_path` after diff generation.
+- Match categories for automations, scripts, scenes, groups, templates, Lovelace, `.storage`, blueprints, and general config files.
+- Confidence score per match.
+- Better Markdown migration report.
+- Service `ha_migration_assistant.generate_diff`.
+- `.diff` export into `/config/ha_migration_assistant/`.
 
 ### Changed
 
-- Internal scanner code was rebuilt to prepare for future safe migrations.
-- Export payload version updated to `0.0.4`.
-- Repository URLs point to `kimzeuner/Home-Assistant-Migration-Assistant`.
-
-### Safety
-
-- The integration remains read-only.
-- No Home Assistant configuration files are modified.
+- Scanner result model now uses structured match objects.
+- Sensor attributes now include richer match metadata.
 
 ## v0.0.3
 
 ### Added
 
 - Service `ha_migration_assistant.export_plan`.
-- JSON export to `/config/ha_migration_assistant/`.
-- Attribute `last_export_path`.
+- JSON export into `/config/ha_migration_assistant/`.
+- `last_export_path` sensor attribute.
 
 ## v0.0.2
 
 ### Added
 
 - Service `ha_migration_assistant.rescan`.
-- File summaries and richer scan attributes.
+- Improved match attributes.
+- File summary attributes.
 - Markdown migration plan attribute.
 
 ## v0.0.1
 
 ### Added
 
-- Initial read-only migration scanner.
-- Config flow and options flow.
-- Basic sensors for matches and scanned files.
+- Initial read-only scanner.
+- Config flow.
+- Options flow.
+- Summary sensors.

@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Create migration plan",
-        "description": "Enter the old and new entity ID. Version 0.0.1 only scans and reports matches; it does not modify files.",
+        "description": "Enter the old and new entity ID. The assistant scans your Home Assistant configuration, generates reports, and does not modify files.",
         "data": {
           "old_entity_id": "Old entity ID",
           "new_entity_id": "New entity ID"
@@ -24,7 +24,8 @@
         "data": {
           "old_entity_id": "Old entity ID",
           "new_entity_id": "New entity ID"
-        }
+        },
+        "description": "Update the entity IDs used for this migration plan."
       }
     }
   }

@@ -6,9 +6,9 @@
   ],
   "config_flow": true,
   "documentation": "https://github.com/kimzeuner/Home-Assistant-Migration-Assistant",
-  "integration_type": "helper",
+  "integration_type": "service",
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues",
   "requirements": [],
-  "version": "0.0.4"
+  "version": "0.0.5"
 }

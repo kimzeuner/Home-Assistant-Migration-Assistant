@@ -205,7 +205,7 @@ def _write_migration_plan(
 
     export_path = export_dir / f"{safe_name}.json"
     payload = {
-        "version": "0.0.4",
+        "version": "0.0.5",
         "exported_at": datetime.now(UTC).isoformat(),
         "entry_id": entry.entry_id,
         "title": entry.title,
