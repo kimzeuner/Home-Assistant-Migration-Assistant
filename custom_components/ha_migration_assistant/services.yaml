@@ -8,3 +8,20 @@ rescan:
       required: false
       selector:
         text:
+
+export_plan:
+  name: Export migration plan
+  description: Exports the latest read-only migration plan as JSON under /config/ha_migration_assistant/.
+  fields:
+    entry_id:
+      name: Config entry ID
+      description: Optional config entry ID. If omitted, all migration entries are exported.
+      required: false
+      selector:
+        text:
+    filename:
+      name: Filename
+      description: Optional filename without path. The file is always written as JSON under /config/ha_migration_assistant/.
+      required: false
+      selector:
+        text:

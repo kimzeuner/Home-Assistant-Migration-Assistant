@@ -79,4 +79,8 @@ class MigrationAssistantSensor(SensorEntity):
         result = self.hass.data[DOMAIN][self.entry.entry_id].result
         if result is None:
             return {}
-        return result.as_dict(match_limit=MAX_ATTRIBUTE_MATCHES)
+        attributes = result.as_dict(match_limit=MAX_ATTRIBUTE_MATCHES)
+        domain_data = self.hass.data[DOMAIN][self.entry.entry_id]
+        if domain_data.last_export_path is not None:
+            attributes["last_export_path"] = domain_data.last_export_path
+        return attributes

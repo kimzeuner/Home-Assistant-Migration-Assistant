@@ -17,5 +17,9 @@ DEFAULT_SCAN_PATHS = [
 ]
 
 SERVICE_RESCAN = "rescan"
+SERVICE_EXPORT_PLAN = "export_plan"
+
 ATTR_ENTRY_ID = "entry_id"
+ATTR_FILENAME = "filename"
+
 SIGNAL_SCAN_UPDATED = f"{DOMAIN}_scan_updated"
