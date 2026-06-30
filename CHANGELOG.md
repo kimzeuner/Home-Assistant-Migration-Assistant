@@ -1,42 +1,38 @@
 # Changelog
 
+## v0.0.8
+
+- Added service `ha_migration_assistant.create_backup`.
+- Creates timestamped backups under `/config/ha_migration_assistant/backups/`.
+- Writes a `backup_manifest.json` with copied and skipped files.
+- Keeps the integration read-only: no original files are modified.
+- Updated bundled transparent brand assets.
+
 ## v0.0.6
 
-### Changed
-
-- Reworked the scanner core into a registry-aware architecture.
-- Added Entity Registry checks for old and new entity IDs.
+- Added registry-aware scanning.
 - Added scanner options for `.storage` and backup folders.
-- Improved scanner category handling.
-- Prepared the codebase for future safe YAML migration.
-
-### Kept
-
-- Read-only behavior.
-- JSON/Markdown export.
-- Diff preview export.
-- v0.0.4 modular match model and confidence scoring.
-- v0.0.5 service-style integration metadata.
+- Improved internal scan result structure.
 
 ## v0.0.5
 
 - Changed integration type from helper to service.
-- Cleaned config flow labels and service metadata.
+- Cleaned up integration labels and service metadata.
 
 ## v0.0.4
 
-- Added modular scanner model.
-- Added confidence scoring.
-- Added diff preview service.
+- Introduced modular scanner architecture.
+- Added confidence scores and category summaries.
+- Added `generate_diff` service.
 
 ## v0.0.3
 
-- Added migration plan export service.
+- Added `export_plan` service.
 
 ## v0.0.2
 
-- Added rescan service and richer match attributes.
+- Added `rescan` service and richer match attributes.
 
 ## v0.0.1
 
-- Initial read-only MVP.
+- Initial read-only scanner.

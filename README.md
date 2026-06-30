@@ -1,46 +1,29 @@
 # Home Assistant Migration Assistant
 
-![GitHub Release](https://img.shields.io/github/v/release/kimzeuner/Home-Assistant-Migration-Assistant)
-![License](https://img.shields.io/github/license/kimzeuner/Home-Assistant-Migration-Assistant)
-![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2024.6%2B-41BDF5.svg)
+A Home Assistant custom integration for safely planning entity migrations.
 
-A read-only migration planning tool for Home Assistant entity replacements.
+It helps you find where an old entity ID is used, plan the replacement, generate a diff preview, and create backups before any future migration step.
 
-## What it does
-
-The integration helps you plan the replacement of one entity ID with another one, for example:
-
-```text
-switch.old -> switch.new
-```
-
-It scans your Home Assistant configuration and reports where the old entity is referenced.
-
-## Current status
-
-Version `v0.0.6` is still read-only. It does not modify your configuration.
+> Current status: read-only. Version `v0.0.8` does not modify your Home Assistant configuration.
 
 ## Features
 
-- Config Flow based setup
-- Options Flow
-- Entity Registry awareness
-- File-system scanner
-- Scanner categories for automations, scripts, scenes, groups, templates, Lovelace, `.storage`, blueprints, and generic config
-- Confidence score per match
-- Markdown report attribute
-- JSON and Markdown export service
-- Unified diff preview service
+- Scan Home Assistant configuration files for an old entity ID.
+- Compare old and new entities against the Entity Registry.
+- Categorize matches by area such as automations, scripts, scenes, Lovelace, `.storage`, blueprints, templates, and config files.
+- Generate a JSON/Markdown migration plan.
+- Generate a unified diff preview.
+- Create timestamped backups of affected files.
 
 ## Services
 
 ### `ha_migration_assistant.rescan`
 
-Runs the scanner again.
+Runs the scanner again for all configured migration plans.
 
 ### `ha_migration_assistant.export_plan`
 
-Exports a JSON and Markdown migration plan to:
+Exports the current migration plan to:
 
 ```text
 /config/ha_migration_assistant/
@@ -54,26 +37,31 @@ Generates a read-only `.diff` preview in:
 /config/ha_migration_assistant/
 ```
 
+### `ha_migration_assistant.create_backup`
+
+Copies all files referenced by the current migration plan to:
+
+```text
+/config/ha_migration_assistant/backups/
+```
+
+The service also writes a `backup_manifest.json`. Original files are not changed.
+
 ## Installation
 
-Copy:
+Copy this folder into your Home Assistant config directory:
 
 ```text
 custom_components/ha_migration_assistant
 ```
 
-to:
-
-```text
-/config/custom_components/ha_migration_assistant
-```
-
-Restart Home Assistant and add the integration from **Settings > Devices & services**.
+Restart Home Assistant and add **Home Assistant Migration Assistant** from **Settings → Devices & services**.
 
 ## Repository
 
-https://github.com/kimzeuner/Home-Assistant-Migration-Assistant
+- Repository: https://github.com/kimzeuner/Home-Assistant-Migration-Assistant
+- Issues: https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues
 
-## Issues
+## License
 
-https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues
+MIT

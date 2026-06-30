@@ -6,8 +6,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers import issue_registry as ir
 
-from .const import DOMAIN, SERVICE_EXPORT_PLAN, SERVICE_GENERATE_DIFF, SERVICE_RESCAN
+from .const import DOMAIN, SERVICE_CREATE_BACKUP, SERVICE_EXPORT_PLAN, SERVICE_GENERATE_DIFF, SERVICE_RESCAN
 from .coordinator import MigrationAssistantCoordinator
+from .backup import create_backup
 from .report import export_plan, generate_diff
 
 _LOGGER = logging.getLogger(__name__)
@@ -58,6 +59,14 @@ def _async_register_services(hass: HomeAssistant) -> None:
             path = await hass.async_add_executor_job(generate_diff, hass.config.config_dir, coordinator.data)
             _LOGGER.info("Generated migration diff: %s", path)
 
+    async def async_create_backup(call: ServiceCall) -> None:
+        for coordinator in hass.data.get(DOMAIN, {}).values():
+            if coordinator.data is None:
+                await coordinator.async_request_refresh()
+            manifest = await hass.async_add_executor_job(create_backup, hass.config.config_dir, coordinator.data)
+            _LOGGER.info("Created migration backup: %s", manifest.get("backup_dir"))
+
     hass.services.async_register(DOMAIN, SERVICE_RESCAN, async_rescan)
     hass.services.async_register(DOMAIN, SERVICE_EXPORT_PLAN, async_export_plan)
     hass.services.async_register(DOMAIN, SERVICE_GENERATE_DIFF, async_generate_diff)
+    hass.services.async_register(DOMAIN, SERVICE_CREATE_BACKUP, async_create_backup)

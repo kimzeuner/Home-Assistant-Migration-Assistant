@@ -1,6 +1,6 @@
 DOMAIN = "ha_migration_assistant"
 NAME = "Home Assistant Migration Assistant"
-VERSION = "0.0.6"
+VERSION = "0.0.8"
 
 CONF_OLD_ENTITY_ID = "old_entity_id"
 CONF_NEW_ENTITY_ID = "new_entity_id"
@@ -13,5 +13,6 @@ DEFAULT_SCAN_BACKUPS = False
 SERVICE_RESCAN = "rescan"
 SERVICE_EXPORT_PLAN = "export_plan"
 SERVICE_GENERATE_DIFF = "generate_diff"
+SERVICE_CREATE_BACKUP = "create_backup"
 
 DATA_DIR = "ha_migration_assistant"

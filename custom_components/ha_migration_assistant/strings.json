@@ -42,6 +42,10 @@
     "generate_diff": {
       "name": "Generate diff",
       "description": "Generate a read-only unified diff preview for the current migration plan."
+    },
+    "create_backup": {
+      "name": "Create backup",
+      "description": "Create a read-only backup copy of all files referenced by the current migration plan."
     }
   }
 }
