@@ -2,87 +2,83 @@ from __future__ import annotations
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, SIGNAL_SCAN_UPDATED
+from .const import DOMAIN
+from .coordinator import MigrationAssistantCoordinator
 
-MAX_ATTRIBUTE_MATCHES = 50
-
-SENSOR_DESCRIPTIONS = (
-    SensorEntityDescription(key="matches", name="Migration Matches", icon="mdi:file-search"),
-    SensorEntityDescription(key="files", name="Migration Files", icon="mdi:file-document-alert"),
-    SensorEntityDescription(key="scanned_files", name="Migration Scanned Files", icon="mdi:file-document-multiple"),
-)
-
-
-async def async_setup_entry(
-    hass: HomeAssistant,
-    entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
-) -> None:
-    async_add_entities(
-        MigrationAssistantSensor(hass, entry, description)
-        for description in SENSOR_DESCRIPTIONS
-    )
+SENSORS = [
+    SensorEntityDescription(key="total_matches", name="Total Matches", icon="mdi:magnify-scan"),
+    SensorEntityDescription(key="files_with_matches", name="Files With Matches", icon="mdi:file-search"),
+    SensorEntityDescription(key="scanned_files", name="Scanned Files", icon="mdi:file-tree"),
+]
 
 
-class MigrationAssistantSensor(SensorEntity):
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
+    coordinator: MigrationAssistantCoordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities(MigrationAssistantSensor(coordinator, entry, description) for description in SENSORS)
+
+
+class MigrationAssistantSensor(CoordinatorEntity[MigrationAssistantCoordinator], SensorEntity):
     _attr_has_entity_name = True
 
-    def __init__(
-        self,
-        hass: HomeAssistant,
-        entry: ConfigEntry,
-        description: SensorEntityDescription,
-    ) -> None:
-        self.hass = hass
-        self.entry = entry
+    def __init__(self, coordinator: MigrationAssistantCoordinator, entry: ConfigEntry, description: SensorEntityDescription) -> None:
+        super().__init__(coordinator)
         self.entity_description = description
         self._attr_unique_id = f"{entry.entry_id}_{description.key}"
         self._attr_device_info = {
             "identifiers": {(DOMAIN, entry.entry_id)},
-            "name": entry.title,
-            "manufacturer": "Community",
-            "model": "Migration plan",
+            "name": "Migration Assistant",
+            "manufacturer": "kimzeuner",
+            "model": "Migration Plan",
         }
-
-    async def async_added_to_hass(self) -> None:
-        self.async_on_remove(
-            async_dispatcher_connect(
-                self.hass,
-                f"{SIGNAL_SCAN_UPDATED}_{self.entry.entry_id}",
-                self._handle_scan_updated,
-            )
-        )
-
-    @callback
-    def _handle_scan_updated(self) -> None:
-        self.async_write_ha_state()
 
     @property
     def native_value(self):
-        result = self.hass.data[DOMAIN][self.entry.entry_id].result
+        result = self.coordinator.data
         if result is None:
             return None
-        if self.entity_description.key == "matches":
-            return result.match_count
-        if self.entity_description.key == "files":
-            return result.file_count
+        if self.entity_description.key == "total_matches":
+            return result.total_matches
+        if self.entity_description.key == "files_with_matches":
+            return result.files_with_matches
         if self.entity_description.key == "scanned_files":
             return result.scanned_files
         return None
 
     @property
     def extra_state_attributes(self):
-        result = self.hass.data[DOMAIN][self.entry.entry_id].result
+        result = self.coordinator.data
         if result is None:
             return {}
-        attributes = result.as_dict(match_limit=MAX_ATTRIBUTE_MATCHES)
-        domain_data = self.hass.data[DOMAIN][self.entry.entry_id]
-        if domain_data.last_export_path is not None:
-            attributes["last_export_path"] = domain_data.last_export_path
-        if getattr(domain_data, "last_diff_path", None) is not None:
-            attributes["last_diff_path"] = domain_data.last_diff_path
-        return attributes
+        data = result.as_dict()
+        if self.entity_description.key == "total_matches":
+            data["migration_report"] = self._short_report()
+            return data
+        return {
+            "old_entity_id": result.old_entity_id,
+            "new_entity_id": result.new_entity_id,
+            "category_summary": result.category_summary(),
+            "file_summary": result.file_summary(),
+            "warnings": result.warnings,
+            "registry": result.registry.as_dict(),
+        }
+
+    def _short_report(self) -> str:
+        result = self.coordinator.data
+        if result is None:
+            return ""
+        lines = [
+            f"# Migration plan: `{result.old_entity_id}` → `{result.new_entity_id}`",
+            "",
+            f"- Total matches: **{result.total_matches}**",
+            f"- Files with matches: **{result.files_with_matches}**",
+            f"- Scanned files: **{result.scanned_files}**",
+        ]
+        if result.warnings:
+            lines.append("")
+            lines.append("## Warnings")
+            lines.extend(f"- {warning}" for warning in result.warnings)
+        return "\n".join(lines)

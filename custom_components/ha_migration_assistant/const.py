@@ -1,26 +1,17 @@
-from __future__ import annotations
-
 DOMAIN = "ha_migration_assistant"
-PLATFORMS = ["sensor"]
+NAME = "Home Assistant Migration Assistant"
+VERSION = "0.0.6"
 
 CONF_OLD_ENTITY_ID = "old_entity_id"
 CONF_NEW_ENTITY_ID = "new_entity_id"
+CONF_SCAN_STORAGE = "scan_storage"
+CONF_SCAN_BACKUPS = "scan_backups"
 
-DEFAULT_SCAN_PATHS = [
-    "automations.yaml",
-    "scripts.yaml",
-    "scenes.yaml",
-    "groups.yaml",
-    "configuration.yaml",
-    "ui-lovelace.yaml",
-    "dashboards",
-]
+DEFAULT_SCAN_STORAGE = True
+DEFAULT_SCAN_BACKUPS = False
 
 SERVICE_RESCAN = "rescan"
 SERVICE_EXPORT_PLAN = "export_plan"
 SERVICE_GENERATE_DIFF = "generate_diff"
 
-ATTR_ENTRY_ID = "entry_id"
-ATTR_FILENAME = "filename"
-
-SIGNAL_SCAN_UPDATED = f"{DOMAIN}_scan_updated"
+DATA_DIR = "ha_migration_assistant"

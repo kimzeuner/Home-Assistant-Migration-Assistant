@@ -1,0 +1,47 @@
+{
+  "title": "Home Assistant Migration Assistant",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Create migration plan",
+        "description": "Enter the old and new entity IDs. This integration is currently read-only and will not modify your configuration.",
+        "data": {
+          "old_entity_id": "Old entity ID",
+          "new_entity_id": "New entity ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_entity_id": "Please enter a valid entity ID, for example switch.old_entity."
+    },
+    "abort": {
+      "already_configured": "This migration plan already exists."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Scanner options",
+        "description": "Choose which configuration areas should be scanned.",
+        "data": {
+          "scan_storage": "Scan .storage files",
+          "scan_backups": "Scan backup folders"
+        }
+      }
+    }
+  },
+  "services": {
+    "rescan": {
+      "name": "Rescan",
+      "description": "Run the scanner again for all configured migration plans."
+    },
+    "export_plan": {
+      "name": "Export migration plan",
+      "description": "Export the current migration plan as JSON and Markdown."
+    },
+    "generate_diff": {
+      "name": "Generate diff",
+      "description": "Generate a read-only unified diff preview for the current migration plan."
+    }
+  }
+}

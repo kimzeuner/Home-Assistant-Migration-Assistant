@@ -1,59 +1,50 @@
-![GitHub Release](https://img.shields.io/github/v/release/kimzeuner/Home-Assistant-Migration-Assistant)
-![HACS](https://img.shields.io/badge/HACS-Default-blue.svg)
-![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2025.7+-41BDF5.svg)
-![License](https://img.shields.io/github/license/kimzeuner/Home-Assistant-Migration-Assistant)
-
 # Home Assistant Migration Assistant
 
-A custom Home Assistant integration that helps you migrate entity references safely.
+![GitHub Release](https://img.shields.io/github/v/release/kimzeuner/Home-Assistant-Migration-Assistant)
+![License](https://img.shields.io/github/license/kimzeuner/Home-Assistant-Migration-Assistant)
+![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2024.6%2B-41BDF5.svg)
 
-The assistant scans your Home Assistant configuration for references to an old entity ID and prepares a migration plan for a new entity ID. It is designed to be safe first: the current release is still read-only and does not modify your configuration files.
+A read-only migration planning tool for Home Assistant entity replacements.
 
-## Repository
+## What it does
 
-- Repository: https://github.com/kimzeuner/Home-Assistant-Migration-Assistant
-- Issues: https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues
+The integration helps you plan the replacement of one entity ID with another one, for example:
 
-## v0.0.5 highlights
+```text
+switch.old -> switch.new
+```
 
-- Changes the manifest `integration_type` from `helper` to `service` so Home Assistant treats the integration as a service-style integration instead of sending users to the Helpers page.
-- Keeps all v0.0.4 scanner, report, export, and diff functionality.
-- Adds service icons via `icons.json`.
-- Adds local brand asset support in `custom_components/ha_migration_assistant/brand/` for Home Assistant 2026.3 and newer.
-- Updates config-flow descriptions and export metadata to `0.0.5`.
+It scans your Home Assistant configuration and reports where the old entity is referenced.
+
+## Current status
+
+Version `v0.0.6` is still read-only. It does not modify your configuration.
 
 ## Features
 
-- Scan for references to an old entity ID.
-- Compare them against a planned new entity ID.
-- Categorize matches by source type, for example automations, scripts, scenes, Lovelace, blueprints, templates, `.storage`, and general config files.
-- Include confidence scores for each match.
-- Expose scan summary sensors.
-- Export a JSON migration plan.
-- Generate a read-only diff preview.
+- Config Flow based setup
+- Options Flow
+- Entity Registry awareness
+- File-system scanner
+- Scanner categories for automations, scripts, scenes, groups, templates, Lovelace, `.storage`, blueprints, and generic config
+- Confidence score per match
+- Markdown report attribute
+- JSON and Markdown export service
+- Unified diff preview service
 
 ## Services
 
 ### `ha_migration_assistant.rescan`
 
-Rescans configured migration plans.
-
-Optional fields:
-
-- `entry_id`
+Runs the scanner again.
 
 ### `ha_migration_assistant.export_plan`
 
-Exports the current migration plan as JSON to:
+Exports a JSON and Markdown migration plan to:
 
 ```text
 /config/ha_migration_assistant/
 ```
-
-Optional fields:
-
-- `entry_id`
-- `filename`
 
 ### `ha_migration_assistant.generate_diff`
 
@@ -63,24 +54,26 @@ Generates a read-only `.diff` preview in:
 /config/ha_migration_assistant/
 ```
 
-Optional fields:
-
-- `entry_id`
-- `filename`
-
 ## Installation
 
-Copy the integration folder to your Home Assistant config directory:
+Copy:
 
 ```text
 custom_components/ha_migration_assistant
 ```
 
-Restart Home Assistant and add the integration from **Settings → Devices & services → Add integration**.
+to:
 
-## Safety status
+```text
+/config/custom_components/ha_migration_assistant
+```
 
-Current release: **read-only**.
+Restart Home Assistant and add the integration from **Settings > Devices & services**.
 
-This integration scans, reports, exports plans, and generates diffs. It does not apply migrations yet.
+## Repository
 
+https://github.com/kimzeuner/Home-Assistant-Migration-Assistant
+
+## Issues
+
+https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues

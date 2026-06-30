@@ -5,7 +5,15 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 
-from .const import CONF_NEW_ENTITY_ID, CONF_OLD_ENTITY_ID, DOMAIN
+from .const import (
+    CONF_NEW_ENTITY_ID,
+    CONF_OLD_ENTITY_ID,
+    CONF_SCAN_BACKUPS,
+    CONF_SCAN_STORAGE,
+    DEFAULT_SCAN_BACKUPS,
+    DEFAULT_SCAN_STORAGE,
+    DOMAIN,
+)
 
 
 class MigrationAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -25,7 +33,14 @@ class MigrationAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
                     title=f"{old_entity_id} → {new_entity_id}",
-                    data=user_input,
+                    data={
+                        CONF_OLD_ENTITY_ID: old_entity_id,
+                        CONF_NEW_ENTITY_ID: new_entity_id,
+                    },
+                    options={
+                        CONF_SCAN_STORAGE: DEFAULT_SCAN_STORAGE,
+                        CONF_SCAN_BACKUPS: DEFAULT_SCAN_BACKUPS,
+                    },
                 )
 
         return self.async_show_form(
@@ -53,19 +68,19 @@ class MigrationAssistantOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        data = {**self.config_entry.data, **self.config_entry.options}
+        options = self.config_entry.options
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(
                 {
                     vol.Required(
-                        CONF_OLD_ENTITY_ID,
-                        default=data.get(CONF_OLD_ENTITY_ID, ""),
-                    ): str,
+                        CONF_SCAN_STORAGE,
+                        default=options.get(CONF_SCAN_STORAGE, DEFAULT_SCAN_STORAGE),
+                    ): bool,
                     vol.Required(
-                        CONF_NEW_ENTITY_ID,
-                        default=data.get(CONF_NEW_ENTITY_ID, ""),
-                    ): str,
+                        CONF_SCAN_BACKUPS,
+                        default=options.get(CONF_SCAN_BACKUPS, DEFAULT_SCAN_BACKUPS),
+                    ): bool,
                 }
             ),
         )
