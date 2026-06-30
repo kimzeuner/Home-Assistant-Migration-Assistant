@@ -1,0 +1,12 @@
+{
+  "domain": "ha_migration_assistant",
+  "name": "Home Assistant Migration Assistant",
+  "codeowners": ["@YOUR_GITHUB_USERNAME"],
+  "config_flow": true,
+  "documentation": "https://github.com/YOUR_GITHUB_USERNAME/ha-migration-assistant",
+  "integration_type": "helper",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/YOUR_GITHUB_USERNAME/ha-migration-assistant/issues",
+  "requirements": [],
+  "version": "0.0.1"
+}

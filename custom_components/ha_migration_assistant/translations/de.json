@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Migrationsplan erstellen",
+        "description": "Gib die alte und neue Entity-ID ein. Version 0.0.1 sucht nur Fundstellen und verändert keine Dateien.",
+        "data": {
+          "old_entity_id": "Alte Entity-ID",
+          "new_entity_id": "Neue Entity-ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_entity_id": "Gib eine gültige Entity-ID wie light.kueche_alt ein."
+    },
+    "abort": {
+      "already_configured": "Dieser Migrationsplan existiert bereits."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Migrationsplan ändern",
+        "data": {
+          "old_entity_id": "Alte Entity-ID",
+          "new_entity_id": "Neue Entity-ID"
+        }
+      }
+    }
+  }
+}

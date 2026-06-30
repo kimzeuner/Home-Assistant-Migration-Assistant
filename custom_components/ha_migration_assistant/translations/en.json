@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Create migration plan",
+        "description": "Enter the old and new entity ID. Version 0.0.1 only scans and reports matches; it does not modify files.",
+        "data": {
+          "old_entity_id": "Old entity ID",
+          "new_entity_id": "New entity ID"
+        }
+      }
+    },
+    "error": {
+      "invalid_entity_id": "Enter a valid entity ID like light.kitchen_old."
+    },
+    "abort": {
+      "already_configured": "This migration plan already exists."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Update migration plan",
+        "data": {
+          "old_entity_id": "Old entity ID",
+          "new_entity_id": "New entity ID"
+        }
+      }
+    }
+  }
+}
