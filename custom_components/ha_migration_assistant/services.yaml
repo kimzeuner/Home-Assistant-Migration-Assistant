@@ -1,0 +1,10 @@
+rescan:
+  name: Rescan migration references
+  description: Rescans Home Assistant configuration files for configured entity migration references.
+  fields:
+    entry_id:
+      name: Config entry ID
+      description: Optional config entry ID. If omitted, all migration entries are rescanned.
+      required: false
+      selector:
+        text:
