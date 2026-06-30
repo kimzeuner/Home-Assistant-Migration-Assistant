@@ -1,12 +1,14 @@
 {
   "domain": "ha_migration_assistant",
   "name": "Home Assistant Migration Assistant",
-  "codeowners": ["@kimzeuner"],
+  "codeowners": [
+    "@kimzeuner"
+  ],
   "config_flow": true,
   "documentation": "https://github.com/kimzeuner/Home-Assistant-Migration-Assistant",
   "integration_type": "helper",
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues",
   "requirements": [],
-  "version": "0.0.1"
+  "version": "0.0.4"
 }
