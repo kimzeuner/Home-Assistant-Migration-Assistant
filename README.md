@@ -1,72 +1,74 @@
 # Home Assistant Migration Assistant
 
-A safe migration helper for Home Assistant.
+A read-only Home Assistant custom integration that helps you find and plan entity migrations.
 
-Version `v0.0.1` is intentionally read-only. It scans selected Home Assistant configuration files for usages of an old entity ID and creates a migration plan for replacing it with a new entity ID.
+Repository: <https://github.com/kimzeuner/Home-Assistant-Migration-Assistant>
+Issues: <https://github.com/kimzeuner/Home-Assistant-Migration-Assistant/issues>
 
-## Current features
+## What it does
 
-- Config flow UI
-- Options flow UI
-- Read-only scan
-- Finds references in common YAML files
-- Finds references in Lovelace storage files
-- Creates sensors with match count and scanned file count
-- Exposes the first matches as entity attributes
+The integration scans selected Home Assistant configuration areas for references to an old entity ID and prepares a migration preview for a new entity ID.
 
-## Not implemented yet
+It is currently **read-only**. It does not modify YAML files, dashboards, `.storage`, or any other Home Assistant configuration.
 
-- Writing changes to files
-- Backup creation
-- Full diff UI
-- Multi-entity migration plans
+## v0.0.4 highlights
 
-## Installation during development
+- Modular scanner architecture
+- Separate scanners for automations, scripts, scenes, groups, templates, Lovelace, `.storage` Lovelace, blueprints, and configuration
+- Structured match objects
+- Match categories
+- Confidence scoring
+- Markdown migration report in sensor attributes
+- JSON export service
+- Diff preview export service
 
-Copy this folder:
+## Installation
+
+Copy this folder into Home Assistant:
 
 ```text
 custom_components/ha_migration_assistant
 ```
 
-to:
+Restart Home Assistant and add the integration from:
 
 ```text
-/config/custom_components/ha_migration_assistant
+Settings -> Devices & services -> Add integration -> Home Assistant Migration Assistant
 ```
 
-Restart Home Assistant and add the integration from **Settings > Devices & services > Add integration**.
+## Services
 
-## GitHub setup without command line
+### `ha_migration_assistant.rescan`
 
-1. Create a new GitHub repository named `ha-migration-assistant`.
-2. Do not create a README, license or `.gitignore` on GitHub.
-3. Upload all files from this project into the empty repository.
-4. Replace `YOUR_GITHUB_USERNAME` in `manifest.json`.
-5. Commit via the GitHub web UI.
-6. Create a release named `v0.0.1`.
+Rescans all configured migration entries, or a specific entry when `entry_id` is provided.
 
-## GitHub setup with command line
+### `ha_migration_assistant.export_plan`
 
-```bash
-git init
-git add .
-git commit -m "Initial v0.0.1"
-git branch -M main
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/ha-migration-assistant.git
-git push -u origin main
-git tag v0.0.1
-git push origin v0.0.1
+Exports a JSON migration plan to:
+
+```text
+/config/ha_migration_assistant/
 ```
 
-## Safety model
+### `ha_migration_assistant.generate_diff`
 
-The project should always follow this workflow:
+Exports a read-only diff preview to:
 
-1. Scan
-2. Show plan
-3. Create backup
-4. Show diff
-5. Apply migration only after explicit confirmation
+```text
+/config/ha_migration_assistant/
+```
 
-Version `v0.0.1` only implements step 1 and part of step 2.
+This diff is only a preview. It is not applied automatically.
+
+## Current limitations
+
+- No file modifications yet
+- No backup/restore yet
+- `.storage` is scanned read-only only
+- Search is entity-ID based
+
+## Roadmap
+
+- v0.0.5: better diff grouping and report output
+- v0.0.6: backup manager
+- v0.1.0: safe YAML-only migration with backup and confirmation
