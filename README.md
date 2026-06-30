@@ -1,3 +1,8 @@
+![GitHub Release](https://img.shields.io/github/v/release/kimzeuner/Home-Assistant-Migration-Assistant)
+![HACS](https://img.shields.io/badge/HACS-Default-blue.svg)
+![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2025.7+-41BDF5.svg)
+![License](https://img.shields.io/github/license/kimzeuner/Home-Assistant-Migration-Assistant)
+
 # Home Assistant Migration Assistant
 
 A custom Home Assistant integration that helps you migrate entity references safely.
